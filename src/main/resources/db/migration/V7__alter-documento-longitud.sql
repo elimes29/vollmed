@@ -1,0 +1,2 @@
+ALTER TABLE medicos
+MODIFY COLUMN documento VARCHAR(12);
