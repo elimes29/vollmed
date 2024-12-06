@@ -1,11 +1,10 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.domain.consulta.ConsultaRepository;
-import med.voll.api.domain.consulta.DatoRegistraConsulta;
-import med.voll.api.domain.consulta.DatoSalidaConsulta;
+import med.voll.api.domain.consulta.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class ConsultaController {
 
     @Autowired
-    public ConsultaRepository consultaRepository;
+    private ReservaDeConsultas reservaDeConsultas;
 
+    @Transactional
     @PutMapping
     public ResponseEntity<DatoSalidaConsulta> registraConsulta(@RequestBody @Valid DatoRegistraConsulta datoRegistraConsulta){
-        System.out.println(datoRegistraConsulta);
-        return null;
+        Consulta consulta = reservaDeConsultas.reservar(datoRegistraConsulta);
+        return ResponseEntity.ok(new DatoSalidaConsulta(consulta.getId(), consulta.getMedico().getId(), consulta.getPaciente().getId(), consulta.getFecha()));
     }
 
 }
