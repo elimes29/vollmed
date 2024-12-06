@@ -21,4 +21,12 @@ public class ConsultaController {
         return ResponseEntity.ok(new DatoSalidaConsulta(consulta.getId(), consulta.getMedico().getId(), consulta.getPaciente().getId(), consulta.getFecha()));
     }
 
+    @Transactional
+    @DeleteMapping
+    public ResponseEntity<DatoSalidaConsulta> eliminaConsulta(@RequestBody @Valid DatoEliminaConsulta datoEliminaConsulta){
+        reservaDeConsultas.cancelar(datoEliminaConsulta);
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
