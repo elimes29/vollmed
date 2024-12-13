@@ -29,7 +29,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento()));
+                        medico.getDireccion().getComplemento()), medico.getActivo());
 
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaMedico);
@@ -51,7 +51,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento())));
+                        medico.getDireccion().getComplemento()), medico.getActivo()));
     }
 
     // DELETE LOGICO
@@ -70,7 +70,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento()));
+                        medico.getDireccion().getComplemento()), medico.getActivo());
         return ResponseEntity.ok(datosMedico);
     }
 

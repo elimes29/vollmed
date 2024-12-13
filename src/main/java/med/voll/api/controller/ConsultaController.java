@@ -15,7 +15,7 @@ public class ConsultaController {
     private ReservaDeConsultas reservaDeConsultas;
 
     @Transactional
-    @PutMapping
+    @PostMapping
     public ResponseEntity<DatoSalidaConsulta> registraConsulta(@RequestBody @Valid DatoRegistraConsulta datoRegistraConsulta){
         Consulta consulta = reservaDeConsultas.reservar(datoRegistraConsulta);
         return ResponseEntity.ok(new DatoSalidaConsulta(consulta.getId(), consulta.getMedico().getId(), consulta.getPaciente().getId(), consulta.getFecha()));
