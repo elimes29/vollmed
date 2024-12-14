@@ -23,21 +23,21 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
             """)
     Boolean findActivoById(Long idMedico);
 
-    @Query(value = """
-            SELECT m.*
-            FROM medicos m
+    @Query("""
+            SELECT m 
+            FROM Medico m 
             WHERE m.especialidad = :especialidad 
-              AND m.activo = 1
+              AND m.activo = true
               AND NOT EXISTS (
-                  SELECT 1
-                  FROM consultas c
-                  WHERE c.medico_id = m.id
+                  SELECT c 
+                  FROM Consulta c 
+                  WHERE c.medico = m 
                     AND c.fecha >= :inicioHora
-                    AND c.fecha < :finHora
+                    AND c.fecha <= :finHora
               )
-            ORDER BY RAND()
+            ORDER BY FUNCTION('RAND') 
             LIMIT 1
-           """, nativeQuery = true)
+           """)
     Optional<Medico> findRandomAvailableMedico(
             @Param("especialidad") Especialidad especialidad,
             @Param("inicioHora") LocalDateTime inicioHora,
