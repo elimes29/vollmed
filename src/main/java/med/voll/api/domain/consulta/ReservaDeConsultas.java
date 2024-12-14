@@ -9,6 +9,7 @@ import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,6 +99,12 @@ public class ReservaDeConsultas {
             throw new ValidacionException("Id de la consulta informado no existe!");
         }
         var consulta = consultaRepository.getReferenceById(datos.id());
+
+        //La consulta debe ser cancelada al menos con 24 horas de altelación
+        LocalDateTime fechaActual = LocalDateTime.now();
+        if (fechaActual.plusHours(24).compareTo(consulta.getFecha())>0){
+            throw new ValidacionException("La consulta no puede ser eliminada porque queda menos de 24 horas.");
+        }
         consulta.cancelarCita(datos.motivo());
     }
 }
